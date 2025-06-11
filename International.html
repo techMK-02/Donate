@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>International Payment</title>
+  <link rel="icon" href="assets/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8fafc;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+    }
+    
+    .payment-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 
+                  0 8px 10px rgba(0, 0, 0, 0.02);
+      border: 1px solid #e2e8f0;
+      max-width: 420px;
+      width: 90%;
+      padding: 32px;
+      margin: 20px;
+      text-align: center;
+    }
+    
+    .payment-title {
+      font-size: 28px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+    
+    .highlight {
+      color: #4f46e5;
+    }
+    
+    .subtitle {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    
+    .payment-method {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+      text-align: left;
+      transition: all 0.2s;
+    }
+    
+    .payment-method:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border-color: #c7d2fe;
+    }
+    
+    .method-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .method-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .method-name {
+      font-weight: 600;
+      color: #334155;
+    }
+    
+    .paypal-icon {
+      color: #3b7bbf;
+    }
+    
+    .binance-icon {
+      color: #f0b90b;
+    }
+    
+    .coffee-icon {
+      color: #6f42c1;
+    }
+    
+    .action-btn {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .paypal-btn {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+    
+    .binance-btn {
+      background: #fef3c7;
+      color: #b45309;
+    }
+    
+    .coffee-btn {
+      background: #f3e8ff;
+      color: #7e22ce;
+    }
+    
+    .action-btn:hover {
+      opacity: 0.9;
+    }
+    
+    .btn-primary {
+      background: #4f46e5;
+      color: white;
+      font-weight: 500;
+      border-radius: 10px;
+      padding: 12px;
+      transition: all 0.2s ease;
+      border: none;
+      width: 100%;
+      font-size: 16px;
+      margin-top: 24px;
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+    }
+    
+    .btn-primary:hover {
+      background: #4338ca;
+    }
+    
+    .contact-btn {
+      background: #3b82f6;
+    }
+    
+    .contact-btn:hover {
+      background: #2563eb;
+    }
+    
+    .switch-link {
+      display: block;
+      color: #ef4444;
+      font-weight: 600;
+      font-size: 12px;
+      text-decoration: none;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    
+    .switch-link:hover {
+      color: #dc2626;
+      text-decoration: underline;
+    }
+    
+    #toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #10b981;
+      color: white;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 50;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    #toast.show {
+      opacity: 1;
+    }
+    
+    .icon {
+      font-size: 24px;
+    }
+    
+    @media (max-width: 480px) {
+      .payment-card {
+        padding: 24px;
+      }
+    }
+  </style>
+  <script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+  </script>
+</head>
+
+<body>
+  <div id="toast"></div>
+  <div class="payment-card">
+    <h4 class="payment-title"><span class="highlight">Rahul Dhankhar</span></h4>
+    <p class="subtitle"><i class="fa fa-lock"></i> Protected Payment Page</p>
+    
+    <div class="payment-methods">
+      <!-- Paypal -->
+      <div class="payment-method">
+        <div class="method-header">
+          <div class="method-info">
+            <i class="fab fa-paypal icon paypal-icon"></i>
+            <span class="method-name">Paypal</span>
+          </div>
+          <button onclick="copyPaymentAddress('paypal')" class="action-btn paypal-btn">
+            <i class="fas fa-external-link-alt"></i> Open
+          </button>
+        </div>
+      </div>
+
+      <!-- Binance Pay -->
+      <div class="payment-method">
+        <div class="method-header">
+          <div class="method-info">
+            <i class="fas fa-qrcode icon binance-icon"></i>
+            <span class="method-name">Binance Pay</span>
+          </div>
+          <button onclick="copyPaymentAddress('binance')" class="action-btn binance-btn">
+            <i class="fa-solid fa-copy"></i> Copy
+          </button>
+        </div>
+      </div>
+
+      <!-- Buy me a coffee -->
+      <div class="payment-method">
+        <div class="method-header">
+          <div class="method-info">
+            <i class="fa-solid fa-coffee icon coffee-icon"></i>
+            <span class="method-name">Buy me a coffee</span>
+          </div>
+          <button onclick="copyPaymentAddress('coffee')" class="action-btn coffee-btn">
+            <i class="fas fa-external-link-alt"></i> Open
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <a href="https://instagram.com/TechifyRahul" class="btn-primary contact-btn">
+      <i class="fas fa-comment-dots"></i> Contact
+    </a>
+    
+    <a href="Nhy.html" class="switch-link">
+      <i class="fas fa-arrow-left"></i> Switch to India's payment method
+    </a>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
